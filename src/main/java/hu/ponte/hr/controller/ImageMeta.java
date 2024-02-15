@@ -20,13 +20,13 @@ public class ImageMeta
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private String id;
+	private final String id;
 	@Column(nullable = false)
-	private String name;
+	private final String name;
 	@Column(nullable = false)
-	private String mimeType;
+	private final String mimeType;
 	@Column(nullable = false)
-	private long size;
+	private final long size;
 	@Column(nullable = false, unique = true)
-	private String digitalSign;
+	private final String digitalSign;
 }
