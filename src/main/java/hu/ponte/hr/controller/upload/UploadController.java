@@ -1,5 +1,7 @@
 package hu.ponte.hr.controller.upload;
 
+import hu.ponte.hr.services.ImageStore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,10 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("api/file")
 public class UploadController
 {
+    @Autowired
+    ImageStore imageStore;
 
     @RequestMapping(value = "post", method = RequestMethod.POST)
     @ResponseBody
     public String handleFormUpload(@RequestParam("file") MultipartFile file) {
-        return "ok";
+        return imageStore.uploadImage(file);
     }
 }
