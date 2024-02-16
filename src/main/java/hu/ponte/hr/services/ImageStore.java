@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ImageStore {
-    public static final double BYTE_TO_MB_MULTIPLIER_IN_BINARY = 0.00000095367432;
+    public static final double BYTE_TO_MB_MULTIPLIER = 0.00000095367432;
 
     private final Logger logger = LoggerFactory.getLogger(ImageStore.class);
 
@@ -22,7 +26,7 @@ public class ImageStore {
             logger.warn("The given file is empty or doesn't exist");
             return "The given file is empty or doesn't exist";
         }
-        if(file.getSize() * BYTE_TO_MB_MULTIPLIER_IN_BINARY > 2) {
+        if(file.getSize() * BYTE_TO_MB_MULTIPLIER > 2) {
             logger.warn("The file is more than 2MB");
             return "The file is more than 2MB";
         }
@@ -37,5 +41,15 @@ public class ImageStore {
                 .size(file.getSize())
                 .build());
         return "OK";
+    }
+
+    public List<ImageMeta> getAllImages(){
+        ArrayList<ImageMeta> result = new ArrayList<>();
+        imageRepository.findAll().forEach(result::add);
+        return result;
+    }
+
+    public Optional<ImageMeta> findById(String id){
+        return imageRepository.findById(id);
     }
 }

@@ -1,7 +1,9 @@
 package hu.ponte.hr.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -15,18 +17,20 @@ import javax.persistence.Id;
 @Getter
 @Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class ImageMeta
 {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private final String id;
+	private String id;
 	@Column(nullable = false)
-	private final String name;
+	private String name;
 	@Column(nullable = false)
-	private final String mimeType;
+	private String mimeType;
 	@Column(nullable = false)
-	private final long size;
+	private long size;
 	@Column(nullable = false, unique = true)
-	private final String digitalSign;
+	private String digitalSign;
 }
