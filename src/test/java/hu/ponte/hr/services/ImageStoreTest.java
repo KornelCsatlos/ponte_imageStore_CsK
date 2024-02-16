@@ -40,7 +40,7 @@ class ImageStoreTest {
     void saveImageDoesNotSaveWhenSizeIsMoreThan2MB() {
         //GIVEN
         when(file.isEmpty()).thenReturn(false);
-        when(file.getSize()).thenReturn((long) (3.0 / 0.000001)); //this is the value of 3MB in bytes
+        when(file.getSize()).thenReturn((long) (3.0 / 0.00000095367432)); //this is the value of 3MB in bytes
         when(file.getContentType()).thenReturn("image/jpg");
         //WHEN
         String result = underTest.saveImage(file);
@@ -52,7 +52,7 @@ class ImageStoreTest {
     void saveImageDoesNotSaveWhenTheFileIsNotAnImage() {
         //GIVEN
         when(file.isEmpty()).thenReturn(false);
-        when(file.getSize()).thenReturn((long) (2.0 / 0.000001)); //this is the value of 2MB in bytes
+        when(file.getSize()).thenReturn((long) (2.0 / 0.00000095367432)); //this is the value of 2MB in bytes
         when(file.getContentType()).thenReturn("word");
         //WHEN
         String result = underTest.saveImage(file);
@@ -64,7 +64,7 @@ class ImageStoreTest {
     void saveImageWorksCorrectly() {
         //GIVEN
         when(file.isEmpty()).thenReturn(false);
-        when(file.getSize()).thenReturn((long) (2.0 / 0.000001)); //this is the value of 2MB in bytes
+        when(file.getSize()).thenReturn((long) (2.0 / 0.00000095367432)); //this is the value of 2MB in bytes
         when(file.getContentType()).thenReturn("image/jpg");
         //WHEN
         String result = underTest.saveImage(file);

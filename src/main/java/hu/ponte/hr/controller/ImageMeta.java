@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.InputStream;
 
 /**
  * @author zoltan
@@ -31,6 +32,8 @@ public class ImageMeta
 	private String mimeType;
 	@Column(nullable = false)
 	private long size;
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String digitalSign;
+	@Column(nullable = false, length = 3000000)
+	private byte[] image;
 }
