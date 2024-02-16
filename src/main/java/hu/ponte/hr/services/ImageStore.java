@@ -18,7 +18,7 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageStore {
-    public static final double BYTE_TO_MB_MULTIPLIER = 0.00000095367432;
+    public static final double BYTE_TO_MB_MULTIPLIER = 0.000001;
 
     private final Logger logger = LoggerFactory.getLogger(ImageStore.class);
 
