@@ -19,6 +19,6 @@ public class UploadController
     @RequestMapping(value = "post", method = RequestMethod.POST)
     @ResponseBody
     public String handleFormUpload(@RequestParam("file") MultipartFile file) {
-        return imageStore.uploadImage(file);
+        return imageStore.saveImage(file);
     }
 }

@@ -2,6 +2,8 @@ package hu.ponte.hr.services;
 
 import hu.ponte.hr.controller.ImageMeta;
 import hu.ponte.hr.repository.ImageRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +15,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@NoArgsConstructor
+@AllArgsConstructor
 public class ImageStore {
     public static final double BYTE_TO_MB_MULTIPLIER = 0.00000095367432;
 
     private final Logger logger = LoggerFactory.getLogger(ImageStore.class);
 
     @Autowired
-    ImageRepository imageRepository;
+    private ImageRepository imageRepository;
 
-    public String uploadImage(MultipartFile file){
+    public String saveImage(MultipartFile file){
         if(file == null || file.isEmpty()){
             logger.warn("The given file is empty or doesn't exist");
             return "The given file is empty or doesn't exist";
