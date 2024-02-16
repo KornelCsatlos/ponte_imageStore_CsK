@@ -26,7 +26,7 @@ public class ImageStore {
     private ImageRepository imageRepository;
 
     public String saveImage(MultipartFile file){
-        if(file == null || file.isEmpty()){
+        if(file == null || file.isEmpty() || file.getContentType() == null){
             logger.warn("The given file is empty or doesn't exist");
             return "The given file is empty or doesn't exist";
         }
@@ -34,7 +34,7 @@ public class ImageStore {
             logger.warn("The file is more than 2MB");
             return "The file is more than 2MB";
         }
-        if(file.getContentType() == null || !file.getContentType().contains("image")){
+        if(!file.getContentType().contains("image")){
             logger.warn("The file is not an image type");
             return "The file is not an image type";
         }
