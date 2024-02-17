@@ -1,6 +1,6 @@
 package hu.ponte.hr.controller.upload;
 
-import hu.ponte.hr.services.ImageStore;
+import hu.ponte.hr.services.ImageStoreImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @RequestMapping("api/file")
-public class UploadController
-{
+public class UploadController {
     @Autowired
-    ImageStore imageStore;
+    ImageStoreImpl imageStore;
 
     @RequestMapping(value = "post", method = RequestMethod.POST)
     @ResponseBody

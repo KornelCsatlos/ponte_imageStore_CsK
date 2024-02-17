@@ -1,8 +1,11 @@
 package hu.ponte.hr.controller;
 
 
+import hu.ponte.hr.domain.ImageMeta;
 import hu.ponte.hr.services.ImageStore;
 import org.h2.util.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +24,7 @@ import java.util.Optional;
 @RestController()
 @RequestMapping("api/images")
 public class ImagesController {
-
+    private final Logger logger = LoggerFactory.getLogger(ImagesController.class);
     @Autowired
     private ImageStore imageStore;
 
@@ -31,13 +34,19 @@ public class ImagesController {
     }
 
     @GetMapping("preview/{id}")
-    public void getImage(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
+    public void getImage(@PathVariable("id") String id, HttpServletResponse response) {
         Optional<ImageMeta> imageMeta = imageStore.findById(id);
         if (imageMeta.isPresent()) {
-            response.setStatus(HttpStatus.OK.value());
             InputStream inputStream = new ByteArrayInputStream(imageMeta.get().getImage());
             response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-            IOUtils.copy(inputStream, response.getOutputStream());
+            try {
+                IOUtils.copy(inputStream, response.getOutputStream());
+                response.setStatus(HttpStatus.OK.value());
+                logger.info("Image was loaded");
+            } catch (IOException e) {
+                response.setStatus(HttpStatus.NOT_FOUND.value());
+                logger.warn("Unable to load image");
+            }
         } else {
             response.setStatus(HttpStatus.NO_CONTENT.value());
         }

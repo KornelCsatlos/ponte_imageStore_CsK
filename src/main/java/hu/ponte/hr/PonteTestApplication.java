@@ -7,14 +7,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableAsync
 @SpringBootApplication(scanBasePackages = "hu.ponte.hr", exclude = {
-	MultipartAutoConfiguration.class
+        MultipartAutoConfiguration.class
 })
-public class PonteTestApplication
-{
-	public static void main(String[] args)
-	{
-		SpringApplication.run(PonteTestApplication.class, args);
-	}
+public class PonteTestApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(PonteTestApplication.class, args);
+    }
 
 }
 

@@ -1,5 +1,6 @@
 package hu.ponte.hr.services;
 
+import hu.ponte.hr.domain.Messages;
 import hu.ponte.hr.repository.ImageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,19 +9,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class ImageStoreTest {
+class ImageStoreImplTest {
 
-    private ImageStore underTest;
+    private ImageStoreImpl underTest;
     private MultipartFile file;
 
     @BeforeEach
     public void setup() {
-        underTest = new ImageStore(mock(ImageRepository.class));
+        underTest = new ImageStoreImpl(mock(ImageRepository.class));
         file = mock(MultipartFile.class);
     }
 
@@ -32,8 +36,8 @@ class ImageStoreTest {
         String result1 = underTest.saveImage(null);
         String result2 = underTest.saveImage(file);
         //THEN
-        assertEquals("The given file is empty or doesn't exist", result1);
-        assertEquals("The given file is empty or doesn't exist", result2);
+        assertEquals(Messages.EMPTY_OR_NON_EXISTING.value(), result1);
+        assertEquals(Messages.EMPTY_OR_NON_EXISTING.value(), result2);
     }
 
     @Test
@@ -45,7 +49,7 @@ class ImageStoreTest {
         //WHEN
         String result = underTest.saveImage(file);
         //THEN
-        assertEquals("The file is more than 2MB", result);
+        assertEquals(Messages.MORE_THAN_2MB.value(), result);
     }
 
     @Test
@@ -57,18 +61,22 @@ class ImageStoreTest {
         //WHEN
         String result = underTest.saveImage(file);
         //THEN
-        assertEquals("The file is not an image type", result);
+        assertEquals(Messages.WRONG_FILE_TYPE.value(), result);
     }
 
     @Test
-    void saveImageWorksCorrectly() {
+    void saveImageWorksCorrectly() throws IOException {
         //GIVEN
         when(file.isEmpty()).thenReturn(false);
         when(file.getSize()).thenReturn((long) (2.0 / 0.00000095367432)); //this is the value of 2MB in bytes
         when(file.getContentType()).thenReturn("image/jpg");
+        InputStream inputStream = mock(InputStream.class);
+        byte[] image = new byte[2];
+        when(file.getInputStream()).thenReturn(inputStream);
+        when(inputStream.readAllBytes()).thenReturn(image);
         //WHEN
         String result = underTest.saveImage(file);
         //THEN
-        assertEquals("OK", result);
+        assertEquals(Messages.OK.value(), result);
     }
 }
