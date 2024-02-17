@@ -1,6 +1,6 @@
 package hu.ponte.hr.services;
 
-import hu.ponte.hr.exception.UnableToCreateSignedHash;
+import hu.ponte.hr.exception.UnableToCreateSignedHashException;
 import hu.ponte.hr.exception.VerificationFailedException;
 import hu.ponte.hr.services.keyreader.KeyReader;
 import hu.ponte.hr.services.keyreader.KeyReaderImpl;
@@ -28,12 +28,15 @@ public class SignServiceRSAImpl implements SignService {
         publicKey = keyReader.loadPublicKey(PUBLIC_KEY_PATH);
     }
 
+    /**
+     * @return SHA256withRSA algorithm created signature encoded with Base64
+     */
     @Override
     public String sign(String fileName) {
-        return Base64.getEncoder().encodeToString(useSHA256withRSA(fileName));
+        return Base64.getEncoder().encodeToString(useAlgorithmSHA256WithRSA(fileName));
     }
 
-    private byte[] useSHA256withRSA(String fileName){
+    private byte[] useAlgorithmSHA256WithRSA(String fileName){
         try {
             //Hash the data
             byte[] hashedData = hashTheData(fileName);
@@ -45,12 +48,12 @@ public class SignServiceRSAImpl implements SignService {
             signature.update(hashedData);
             if(!signature.verify(signedHash)){
                 logger.warn("Signature verification failed");
-                throw new VerificationFailedException();
+                throw new VerificationFailedException("Signature verification failed");
             }
             logger.info("signed hash created successfully");
             return signedHash;
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
-            throw new UnableToCreateSignedHash();
+            throw new UnableToCreateSignedHashException(e.getMessage());
         }
     }
 

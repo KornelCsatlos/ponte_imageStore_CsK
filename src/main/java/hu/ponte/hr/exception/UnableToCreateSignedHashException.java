@@ -3,11 +3,10 @@ package hu.ponte.hr.exception;
 import lombok.Getter;
 
 @Getter
-public class UnableToLoadKeyException extends RuntimeException {
-
+public class UnableToCreateSignedHashException extends RuntimeException{
     private final String message;
 
-    public UnableToLoadKeyException(String message) {
+    public UnableToCreateSignedHashException(String message){
         this.message = message;
     }
 }

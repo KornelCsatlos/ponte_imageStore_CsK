@@ -2,7 +2,7 @@ package hu.ponte.hr.services;
 
 import hu.ponte.hr.domain.ImageMeta;
 import hu.ponte.hr.domain.Messages;
-import hu.ponte.hr.exception.UnableToCreateSignedHash;
+import hu.ponte.hr.exception.UnableToCreateSignedHashException;
 import hu.ponte.hr.exception.VerificationFailedException;
 import hu.ponte.hr.repository.ImageRepository;
 import lombok.AllArgsConstructor;
@@ -31,6 +31,9 @@ public class ImageStoreImpl implements ImageStore {
     @Autowired
     private SignService signService;
 
+    /**
+     * @return final result of the image processing
+     */
     @Override
     public String saveImage(MultipartFile file) {
         if (file == null || file.isEmpty() || file.getContentType() == null) {
@@ -53,7 +56,7 @@ public class ImageStoreImpl implements ImageStore {
                     .size(file.getSize())
                     .image(file.getInputStream().readAllBytes())
                     .build());
-        } catch (IOException | UnableToCreateSignedHash | VerificationFailedException e) {
+        } catch (IOException | UnableToCreateSignedHashException | VerificationFailedException e) {
             logger.warn("Reading the picture caused an exception");
             logger.warn(e.getMessage());
             return Messages.EXCEPTION_WHILE_READING_IMAGE.value();

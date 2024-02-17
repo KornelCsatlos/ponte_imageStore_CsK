@@ -1,9 +1,7 @@
-package hu.ponte.hr;
+package hu.ponte.hr.services;
 
-import hu.ponte.hr.services.SignService;
-import hu.ponte.hr.services.SignServiceRSAImpl;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -11,16 +9,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @author zoltan
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest()
-public class SignTest {
+class SignServiceRSAImplTest {
+
     @Test
-    @Ignore
+    @Disabled
     public void testSign() {
         //GIVEN
         SignService underTest = new SignServiceRSAImpl();

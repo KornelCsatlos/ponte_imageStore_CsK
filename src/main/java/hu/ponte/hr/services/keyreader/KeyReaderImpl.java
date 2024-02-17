@@ -28,7 +28,7 @@ public class KeyReaderImpl implements KeyReader{
             KeyFactory kf = KeyFactory.getInstance(algorithm);
             return kf.generatePublic(spec);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new UnableToLoadKeyException(e);
+            throw new UnableToLoadKeyException(e.getMessage());
         }
     }
 
@@ -40,7 +40,7 @@ public class KeyReaderImpl implements KeyReader{
             KeyFactory kf = KeyFactory.getInstance(algorithm);
             return kf.generatePrivate(spec);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new UnableToLoadKeyException(e);
+            throw new UnableToLoadKeyException(e.getMessage());
         }
     }
 }
