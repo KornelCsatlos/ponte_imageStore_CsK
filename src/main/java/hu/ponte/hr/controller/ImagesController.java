@@ -37,18 +37,22 @@ public class ImagesController {
     public void getImage(@PathVariable("id") String id, HttpServletResponse response) {
         Optional<ImageMeta> imageMeta = imageStore.findById(id);
         if (imageMeta.isPresent()) {
-            InputStream inputStream = new ByteArrayInputStream(imageMeta.get().getImage());
             response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-            try {
-                IOUtils.copy(inputStream, response.getOutputStream());
-                response.setStatus(HttpStatus.OK.value());
-                logger.info("Image was loaded");
-            } catch (IOException e) {
-                response.setStatus(HttpStatus.NOT_FOUND.value());
-                logger.warn("Unable to load image");
-            }
+            putImageIntoResponse(response, imageMeta.get());
         } else {
             response.setStatus(HttpStatus.NO_CONTENT.value());
+        }
+    }
+
+    private void putImageIntoResponse(HttpServletResponse response, ImageMeta imageMeta) {
+        InputStream inputStream = new ByteArrayInputStream(imageMeta.getImage());
+        try {
+            IOUtils.copy(inputStream, response.getOutputStream());
+            response.setStatus(HttpStatus.OK.value());
+            logger.info("Image was loaded");
+        } catch (IOException e) {
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            logger.warn("Unable to load image");
         }
     }
 

@@ -24,12 +24,12 @@ class ImageStoreImplTest {
 
     @BeforeEach
     public void setup() {
-        underTest = new ImageStoreImpl(mock(ImageRepository.class));
+        underTest = new ImageStoreImpl(mock(ImageRepository.class), mock(SignService.class));
         file = mock(MultipartFile.class);
     }
 
     @Test
-    void saveImageDoesNotSaveWhenFileIsNullOrEmpty() {
+    void testSaveImageDoesNotSaveWhenFileIsNullOrEmpty() {
         //GIVEN
         when(file.isEmpty()).thenReturn(true);
         //WHEN
@@ -41,7 +41,7 @@ class ImageStoreImplTest {
     }
 
     @Test
-    void saveImageDoesNotSaveWhenSizeIsMoreThan2MB() {
+    void testSaveImageDoesNotSaveWhenSizeIsMoreThan2MB() {
         //GIVEN
         when(file.isEmpty()).thenReturn(false);
         when(file.getSize()).thenReturn((long) (3.0 / 0.00000095367432)); //this is the value of 3MB in bytes
@@ -53,7 +53,7 @@ class ImageStoreImplTest {
     }
 
     @Test
-    void saveImageDoesNotSaveWhenTheFileIsNotAnImage() {
+    void testSaveImageDoesNotSaveWhenTheFileIsNotAnImage() {
         //GIVEN
         when(file.isEmpty()).thenReturn(false);
         when(file.getSize()).thenReturn((long) (2.0 / 0.00000095367432)); //this is the value of 2MB in bytes
@@ -65,7 +65,7 @@ class ImageStoreImplTest {
     }
 
     @Test
-    void saveImageWorksCorrectly() throws IOException {
+    void testSaveImageWorksCorrectly() throws IOException {
         //GIVEN
         when(file.isEmpty()).thenReturn(false);
         when(file.getSize()).thenReturn((long) (2.0 / 0.00000095367432)); //this is the value of 2MB in bytes

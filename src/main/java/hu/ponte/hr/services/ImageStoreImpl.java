@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class ImageStoreImpl implements ImageStore {
     public static final double BYTE_TO_MB_MULTIPLIER = 0.00000095367432;
 
@@ -26,6 +26,8 @@ public class ImageStoreImpl implements ImageStore {
 
     @Autowired
     private ImageRepository imageRepository;
+    @Autowired
+    private SignService signService;
 
     @Override
     public String saveImage(MultipartFile file) {
@@ -43,7 +45,7 @@ public class ImageStoreImpl implements ImageStore {
         }
         try {
             imageRepository.save(ImageMeta.builder()
-                    .digitalSign("ds") //TODO: change digitalSign to use SignService for init
+                    .digitalSign(signService.sign(file.getOriginalFilename()))
                     .name(file.getOriginalFilename())
                     .mimeType(file.getContentType())
                     .size(file.getSize())

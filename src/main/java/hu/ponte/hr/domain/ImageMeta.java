@@ -13,7 +13,6 @@ import javax.persistence.Id;
 
 /**
  * @author zoltan
- * @author kornel
  */
 @Getter
 @Builder
@@ -31,7 +30,7 @@ public class ImageMeta {
     private String mimeType;
     @Column(nullable = false)
     private long size;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String digitalSign;
     @Column(nullable = false, length = 2500000) //length is needed to store 2MB image
     private byte[] image;
