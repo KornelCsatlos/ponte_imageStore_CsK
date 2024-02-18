@@ -7,4 +7,6 @@ public interface KeyReader {
 
     PublicKey loadPublicKey(String filePath);
     PrivateKey loadPrivateKey(String filePath);
+
+    void setAlgorithm(String algorithm);
 }

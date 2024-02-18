@@ -1,6 +1,7 @@
 package hu.ponte.hr.services.keyreader;
 
 import hu.ponte.hr.exception.UnableToLoadKeyException;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,13 +14,13 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+@Setter
 public class KeyReaderImpl implements KeyReader{
-    private final String algorithm;
+    private String algorithm;
 
-    public KeyReaderImpl(String algorithm) {
-        this.algorithm = algorithm;
-    }
-
+    /**
+     * algorithm have to be set before using this method
+     */
     @Override
     public PublicKey loadPublicKey(String filePath) {
         try {
@@ -32,6 +33,9 @@ public class KeyReaderImpl implements KeyReader{
         }
     }
 
+    /**
+     * algorithm have to be set before using this method
+     */
     @Override
     public PrivateKey loadPrivateKey(String filePath) {
         try {

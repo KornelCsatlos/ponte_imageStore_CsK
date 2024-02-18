@@ -23,7 +23,8 @@ public class SignServiceRSAImpl implements SignService {
     private final PublicKey publicKey;
 
     public SignServiceRSAImpl() {
-        KeyReader keyReader = new KeyReaderImpl(ALGORITHM);
+        KeyReader keyReader = new KeyReaderImpl();
+        keyReader.setAlgorithm(ALGORITHM);
         privateKey = keyReader.loadPrivateKey(PRIVATE_KEY_PATH);
         publicKey = keyReader.loadPublicKey(PUBLIC_KEY_PATH);
     }
