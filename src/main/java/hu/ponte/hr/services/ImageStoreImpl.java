@@ -57,7 +57,7 @@ public class ImageStoreImpl implements ImageStore {
                     .image(file.getInputStream().readAllBytes())
                     .build());
         } catch (IOException | UnableToCreateSignedHashException | VerificationFailedException e) {
-            logger.warn("Reading the picture caused an exception");
+            logger.warn("Reading the picture caused a(n)" + e.getClass().getName());
             logger.warn(e.getMessage());
             return Messages.EXCEPTION_WHILE_READING_IMAGE.value();
         }

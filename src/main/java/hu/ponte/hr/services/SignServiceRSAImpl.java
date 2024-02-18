@@ -54,6 +54,7 @@ public class SignServiceRSAImpl implements SignService {
             logger.info("signed hash created successfully");
             return signedHash;
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+            logger.warn("Unable to create signed hash for digital signature creation");
             throw new UnableToCreateSignedHashException(e.getMessage());
         }
     }

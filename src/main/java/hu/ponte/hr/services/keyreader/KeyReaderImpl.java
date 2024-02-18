@@ -1,7 +1,10 @@
 package hu.ponte.hr.services.keyreader;
 
 import hu.ponte.hr.exception.UnableToLoadKeyException;
+import hu.ponte.hr.services.ImageStoreImpl;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,6 +19,8 @@ import java.security.spec.X509EncodedKeySpec;
 
 @Setter
 public class KeyReaderImpl implements KeyReader{
+
+    private final Logger logger = LoggerFactory.getLogger(KeyReaderImpl.class);
     private String algorithm;
 
     /**
@@ -29,6 +34,7 @@ public class KeyReaderImpl implements KeyReader{
             KeyFactory kf = KeyFactory.getInstance(algorithm);
             return kf.generatePublic(spec);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            logger.error("Unable to load public key");
             throw new UnableToLoadKeyException(e.getMessage());
         }
     }
@@ -44,6 +50,7 @@ public class KeyReaderImpl implements KeyReader{
             KeyFactory kf = KeyFactory.getInstance(algorithm);
             return kf.generatePrivate(spec);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            logger.error("Unable to load private key");
             throw new UnableToLoadKeyException(e.getMessage());
         }
     }
